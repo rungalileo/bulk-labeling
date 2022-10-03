@@ -1,0 +1,8 @@
+streamlit
+pandas
+numpy
+plotly
+sentence-transformers
+streamlit-plotly-events
+numerize
+umap-learn
