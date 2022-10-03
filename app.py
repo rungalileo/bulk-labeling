@@ -59,7 +59,7 @@ def get_export_df() -> pd.DataFrame:
     return df2[cols]
 
 
-os.environ["TOKENIZERS_PARALLELISM"] = "false"
+# os.environ["TOKENIZERS_PARALLELISM"] = "false"
 umap_model = UMAP(n_neighbors=15, random_state=42, verbose=True)
 st.set_page_config(layout="wide")
 st.title("Laboratory 🧪")
@@ -143,16 +143,17 @@ def apply_emb_model(text_chunk: List[str]) -> np.ndarray:
 
 @st.cache(allow_output_mutation=True)
 def get_text_embeddings(texts: List[str]) -> np.ndarray:
-    embs = []
-    chunk_size = math.ceil(len(texts) / 10)
-    text_chunks = [texts[i : i + chunk_size] for i in range(0, len(texts), chunk_size)]
-
-    with ProcessPoolExecutor(max_workers=10) as pool:
-        for text_chunk in text_chunks:
-            embs.append(pool.submit(apply_emb_model, text_chunk))
-
-    embs = [i.result() for i in embs]
-    return np.concatenate(embs)
+    return apply_emb_model(texts)
+    # embs = []
+    # chunk_size = math.ceil(len(texts) / 10)
+    # text_chunks = [texts[i : i + chunk_size] for i in range(0, len(texts), chunk_size)]
+    #
+    # with ProcessPoolExecutor(max_workers=10) as pool:
+    #     for text_chunk in text_chunks:
+    #         embs.append(pool.submit(apply_emb_model, text_chunk))
+    #
+    # embs = [i.result() for i in embs]
+    # return np.concatenate(embs)
 
 
 @st.cache(allow_output_mutation=True)
