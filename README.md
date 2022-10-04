@@ -6,52 +6,67 @@ Running on [streamlit!](https://rungalileo-bulk-labeling-app-0l2mzc.streamlitapp
 ## How to use
 We can walk through a simple example of going from an unlabeled dataset to some usable labels in just a few minutes
 
-First, go to the streamlit app above, or you can [run it locally]((#Run-locally))
+First, go to the streamlit app above, or you can [run it locally](#run-locally)
 
-Then upload a csv file with your text. The only requirement of the file is that it must have a `text` column. Any other columns added can be used for coloring the embedding plot
+Then upload a csv file with your text. The only requirement of the file is that it must have a `text` column. Any other columns added can be used for coloring the embedding plot. If you don't have one, you can download [conv-intent](https://github.com/rungalileo/bulk-labeling/blob/main/conv_intent.csv) dataset from this repo!
 
-[img]
+![image](https://user-images.githubusercontent.com/22605641/193918775-7eee07ea-b0d3-46a6-8b78-57755d342e5a.png)
 
-Once the embeddings have processed, you'll see your dataframe on the left and embeddings on the right.
 
-[img]
+Once the embeddings have processed, you'll see your dataframe on the left and embeddings on the right. The dataframe view comes with an extra `text_length` column that you can sort by, or color the embeddings plot with (in case text length is useful to you).
 
-You can filter with the text search (regex coming soon!) or, by lasso selecting embedding clusters from the chart.
+You can filter with the text search (regex coming soon!) or, by lasso selecting embedding clusters from the chart. You can also color the chart and resize the points using the menu on the left
 
-[img]
+![image](https://user-images.githubusercontent.com/22605641/193920464-bee6c734-6ad9-45cc-83e0-00dc5a27f4e4.png)
+
 
 Since we see some clear clusters already, let's start by investigating them. We can see one cluster with a lot of references to weather.
 Let's select this cluster
 
-[video of hovering over weather samples, then selecting]
+https://user-images.githubusercontent.com/22605641/193921160-b024c2f4-3057-41e6-a200-b73bf258e6e9.mov
+
 
 Confirming that this is about weather, we can register a new label "weather" and assign our samples
 
-[video of creating label and assigning]
+https://user-images.githubusercontent.com/22605641/193921485-a052dfdb-e905-4860-b01b-202dce04486a.mov
+
 
 The UI will reset automatically. Let's look at another one. This cluster has a lot of references to bookings and reservations. Let's select that one.
 
-[video of selecting reservations]
+https://user-images.githubusercontent.com/22605641/193921981-6bd0c4a2-20d9-4de2-9c78-e0c334a6773c.mov
 
-We can use the table's builtin text search to see how many references to "book" there are without actually filtering the table
 
-[image of table search for book]
+We can use the streamlit table's builtin text search (by clicking on the table, then CMD+F) to see how many references to "book" there are. Unlike the text search filter, this won't actually filter the selection.
 
-Let's register a new label "reservations" and label these samples
 
-[video of reservations label]
+https://user-images.githubusercontent.com/22605641/193922421-ea1940b4-00c9-40e8-969c-90aa84658ed0.mov
+
+
+
+Loads of samples have "book" in them, but we can be a bit more generic and call this "reservations". Let's register a new label "reservations" and label these samples.
+
+
+https://user-images.githubusercontent.com/22605641/193922719-cab4d3f2-7970-48df-87b0-4c39c82a8e75.mov
+
 
 We can inspect our labeled samples in the label-viewer page.
 
-[img pointing to label viewer] [image of label-viewer page]
+![image](https://user-images.githubusercontent.com/22605641/193922845-34be5fa7-6803-4e1c-96c0-d0d4f9009032.png)
+
+<img width="1680" alt="image" src="https://user-images.githubusercontent.com/22605641/193922962-751e8e58-df98-4d08-90f7-63dfc7d216ed.png">
+
 
 Once we are ready, we simple click "Export assigned labels" and then click the "Download" button
 
-[image of exporting]
+
+https://user-images.githubusercontent.com/22605641/193924543-67be1beb-a46f-49b0-8845-ec91c781f071.mov
+
 
 We just labeled N samples in a few minutes!
 
+There are some pretty funny mistakes in the embeddings that should be considered! The embeddings aren't perfect. We are using a smaller model in order to get embeddings in a reasonable speed. But it's a good start!
 
+<img width="854" alt="image" src="https://user-images.githubusercontent.com/22605641/193925517-5638a8f6-29c3-4023-9463-77ba92a89ffc.png">
 
 
 
