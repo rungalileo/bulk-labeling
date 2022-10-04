@@ -59,12 +59,12 @@ We can inspect our labeled samples in the label-viewer page.
 Once we are ready, we simple click "Export assigned labels" and then click the "Download" button
 
 
-https://user-images.githubusercontent.com/22605641/193924543-67be1beb-a46f-49b0-8845-ec91c781f071.mov
+https://user-images.githubusercontent.com/22605641/193927497-929b1e3a-f185-433c-a275-68c2972cdb91.mov
 
 
 We just labeled N samples in a few minutes!
 
-There are some pretty funny mistakes in the embeddings that should be considered! The embeddings aren't perfect. We are using a smaller model in order to get embeddings in a reasonable speed. But it's a good start!
+There are some pretty funny "mistakes" in the embeddings (samples that are semantically similar to other categories, but have words that trigger weather/reservation) that should be considered! The embeddings aren't perfect. We are using a smaller model (paraphrase-MiniLM-L3-v2) in order to get embeddings in a reasonable speed. But it's a good start! Feel free to run this locally and use a [better model](https://www.sbert.net/docs/pretrained_models.html)
 
 <img width="854" alt="image" src="https://user-images.githubusercontent.com/22605641/193925517-5638a8f6-29c3-4023-9463-77ba92a89ffc.png">
 
