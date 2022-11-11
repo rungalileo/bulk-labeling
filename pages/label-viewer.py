@@ -1,10 +1,7 @@
 import sys
-
 import streamlit as st
-
 from app import SessionKey, get_export_df
 
-st.set_page_config(layout="wide")
 st.header("🔎 Export Viewer")
 
 df = st.session_state.get(SessionKey.df, [])
