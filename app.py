@@ -277,6 +277,7 @@ class Laboratory:
 
         if SessionKey.df not in st.session_state and self.file is not None:
             self.df = pd.read_csv(self.file)
+            self.df["text"] = self.df["text"].astype(str)
             self.df["id"] = self.df.index
             self.df["text_length"] = self.df["text"].str.len()
             self.df["hovertext"] = self.df.text.str.wrap(30).str.replace("\n", "<br>")
