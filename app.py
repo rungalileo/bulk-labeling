@@ -287,7 +287,7 @@ class Laboratory:
         assert self.df is not None
         # Apply search
         self.df = self.df[
-            self.df.apply(lambda row: self.search_term in row["text"], axis=1)
+            self.df.text.astype(str).apply(lambda t: self.search_term in t)
         ]
         if st.session_state.get(SessionKey.selected_points):
             filter_ids = [
