@@ -8,9 +8,9 @@ We can walk through a simple example of going from an unlabeled dataset to some 
 
 First, go to the streamlit app above, or you can [run it locally](#run-locally)
 
-Then upload a csv file with your text. The only requirement of the file is that it must have a `text` column. Any other columns added can be used for coloring the embedding plot. If you don't have one, you can download [conv-intent](https://github.com/rungalileo/bulk-labeling/blob/main/conv_intent.csv) dataset from this repo!
+Then upload a csv file with your text. The only requirement of the file is that it must have a `text` column. Any other columns added can be used for coloring the embedding plot. If you don't have one, you can use the [conv-intent](https://github.com/rungalileo/bulk-labeling/blob/main/conv_intent.csv) dataset from this repo!
 
-![image](https://user-images.githubusercontent.com/22605641/193918775-7eee07ea-b0d3-46a6-8b78-57755d342e5a.png)
+![image](https://user-images.githubusercontent.com/22605641/212553133-1cb5342c-5636-4b8b-bae6-e811b6186614.png)
 
 
 Once the embeddings have processed, you'll see your dataframe on the left and embeddings on the right. The dataframe view comes with an extra `text_length` column that you can sort by, or color the embeddings plot with (in case text length is useful to you).
