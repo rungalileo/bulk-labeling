@@ -82,5 +82,5 @@ source .venv/bin/activate
 # Check that it worked
 which python pip
 ```
-2. Install reqs `pip install -r requirements.txt`
+2. Install reqs `pip install -r requirements.txt && pyenv rehash`
 3. Run the app: `streamlit run app.py`

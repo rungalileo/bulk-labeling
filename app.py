@@ -1,7 +1,4 @@
-import math
-import os
 import sys
-from concurrent.futures import ProcessPoolExecutor
 from dataclasses import dataclass
 from typing import List
 from uuid import uuid4
@@ -44,9 +41,15 @@ class InternalCol:
     hovertext: str = "hovertext"
     x: str = "x"
     y: str = "y"
+    text_length: str = "text_length"
 
 
-INTERNAL_COLS = [InternalCol.hovertext, InternalCol.x, InternalCol.y]
+INTERNAL_COLS = [
+    InternalCol.hovertext,
+    InternalCol.x,
+    InternalCol.y,
+    InternalCol.text_length,
+]
 
 
 def get_export_df() -> pd.DataFrame:
@@ -55,8 +58,9 @@ def get_export_df() -> pd.DataFrame:
     df2["label"] = df2["id"].apply(lambda id_: id_label.get(id_, -1))
     df2 = df2[df2["label"] != -1]
 
-    cols = [c for c in df2.columns if c not in INTERNAL_COLS]
-    return df2[cols]
+    # cols = [c for c in df2.columns if c not in INTERNAL_COLS]
+    # return df2[cols]
+    return df2
 
 
 # os.environ["TOKENIZERS_PARALLELISM"] = "false"
@@ -126,6 +130,17 @@ def reset_embeddings() -> None:
     st.experimental_rerun()
 
 
+def get_demo_dataframe() -> pd.DataFrame:
+    """Optionally loads the demo conv_intent dataframe"""
+    if st.sidebar.button("Or use the demo Conv Intent dataset!"):
+        df = pd.read_csv("conv_intent.csv")
+        df["id"] = list(range(len(df)))
+        df["hovertext"] = df.text.str.wrap(30).str.replace("\n", "<br>")
+        st.session_state[SessionKey.df] = df
+        st.session_state[SessionKey.has_xy] = True
+        return df
+
+
 def get_dataframe_file() -> UploadedFile:
     file = st.sidebar.file_uploader(
         "Upload your CSV text file", type="csv", on_change=clear_state
@@ -146,7 +161,7 @@ def get_text_embeddings(texts: List[str]) -> np.ndarray:
     return apply_emb_model(texts)
     # embs = []
     # chunk_size = math.ceil(len(texts) / 10)
-    # text_chunks = [texts[i : i + chunk_size] for i in range(0, len(texts), chunk_size)]
+    # text_chunks = [texts[i : i + chunk_size] for i in range(0, len(texts),chunk_size)]
     #
     # with ProcessPoolExecutor(max_workers=10) as pool:
     #     for text_chunk in text_chunks:
@@ -224,7 +239,7 @@ class Laboratory:
             with col2:
                 self.plot_figure()
 
-        if self.file:
+        if self.file or self.df is not None:
             with col1:
                 self.dataframe()
             with col2:
@@ -233,6 +248,9 @@ class Laboratory:
 
     def sidebar(self) -> None:
         self.file = get_dataframe_file()
+        demo_df = get_demo_dataframe()
+        if demo_df is not None:
+            self.df = demo_df
         new_label = st.sidebar.text_input("Register Label")
         if new_label and new_label not in st.session_state[SessionKey.labels]:
             st.session_state[SessionKey.labels].append(new_label)
@@ -256,7 +274,6 @@ class Laboratory:
             # We want to clear all selected points as well as the figure, and rerun
             # the app. This will cause all lasso selections to go away and give us
             # a fresh embedding scatterplot
-            print("exporting")
             reset_embeddings()
 
         default = st.session_state.get(SessionKey.marker_size, 2)
@@ -326,6 +343,11 @@ class Laboratory:
             color=st.session_state[SessionKey.color],
             hover_data=["hovertext"],
         )
+        # Remove axes and numbers from embeddings plot
+        p.update_layout(showlegend=False)
+        p.update_xaxes(visible=False)
+        p.update_yaxes(visible=False)
+
         p.update_traces(marker_size=st.session_state[SessionKey.marker_size])
         # If there's no figure yet or it's changed, refresh and replot it
         if (
@@ -333,7 +355,6 @@ class Laboratory:
             or st.session_state[SessionKey.fig] != p
         ):
             st.session_state[SessionKey.fig] = p
-            print("Forcing refresh")
             st.experimental_rerun()
 
     def plot_figure(self) -> None:
